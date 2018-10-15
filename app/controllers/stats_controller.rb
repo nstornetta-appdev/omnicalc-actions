@@ -20,7 +20,7 @@ class StatsController < ApplicationController
     # Median
     # ======
     if @count % 2 == 0
-      @median = @sorted_numbers[@count/2] + @sorted_numbers[@count/2-1]
+      @median = (@sorted_numbers[@count/2] + @sorted_numbers[@count/2-1])/2
     else
       @median = @sorted_numbers[@count/2]
     end
@@ -33,7 +33,10 @@ class StatsController < ApplicationController
     # ========
     
     @variance = 0.0
-    @numbers.each{|num| @variance += (@mean-num)**2}
+    @numbers.each do |num|
+      @variance += (@mean-num)**2
+    end
+    @variance /= @count
 
     @standard_deviation = @variance**(0.5)
 
