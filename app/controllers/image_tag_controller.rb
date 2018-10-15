@@ -8,7 +8,7 @@ class ImageTagController < ApplicationController
     algo = client.algo("deeplearning/IllustrationTagger/0.4.0")
     
     @original_image_url = params.fetch("image_url")
-    @tag_hashes = algo.pipe(@original_image_url).result
+    @tag_hashes = algo.pipe(@original_image_url).result['general']
 
     render("image_tag_templates/image_tag.html.erb")
   end
