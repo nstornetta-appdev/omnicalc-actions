@@ -7,40 +7,56 @@ class StatsController < ApplicationController
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    @sorted_numbers = "Replace this string with your answer"
+    @sorted_numbers = @numbers.sort
 
-    @count = "Replace this string with your answer"
+    @count = @numbers.length
 
-    @minimum = "Replace this string with your answer"
+    @minimum = @numbers.min
 
-    @maximum = "Replace this string with your answer"
+    @maximum = @numbers.max
 
-    @range = "Replace this string with your answer"
+    @range = @maximum-@minimum
 
     # Median
     # ======
+    if @count % 2 == 0
+      @median = @sorted_numbers[@count/2] + @sorted_numbers[@count/2-1]
+    else
+      @median = @sorted_numbers[@count/2]
+    end
 
-    @median = "Replace this string with your answer"
+    @sum = @numbers.sum
 
-    @sum = "Replace this string with your answer"
-
-    @mean = "Replace this string with your answer"
+    @mean = @numbers.sum/@count
 
     # Variance
     # ========
+    
+    @variance = 0.0
+    @numbers.each{|num| @variance += (@mean-num)**2}
 
-    @variance = "Replace this string with your answer"
-
-    @standard_deviation = "Replace this string with your answer"
+    @standard_deviation = @variance**(0.5)
 
     # Mode
     # ====
-
-    @mode = "Replace this string with your answer"
-
-    # ================================================================================
-    # Your code goes above.
-    # ================================================================================
+  counter_hashmap = {}
+  
+  @numbers.each do |num|
+    if counter_hashmap[num] == nil
+      counter_hashmap[num] = 1
+    else
+      counter_hashmap[num] += 1
+    end
+  end
+  
+  @mode, count = nil, nil
+  counter_hashmap.keys.each do |key|
+    if @mode == nil
+      @mode, count = key, counter_hashmap[key]
+    elsif count < counter_hashmap[key]
+      @mode, count = key, counter_hashmap[key]
+    end
+  end
 
     render("stats_templates/stats.html.erb")
   end

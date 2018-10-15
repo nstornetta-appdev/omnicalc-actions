@@ -1,7 +1,7 @@
 class WordCountController < ApplicationController
   def word_count
-    @text = params.fetch("user_text")
-    @special_word = params.fetch("user_word")
+    @text = params.fetch("user_text").downcase
+    @special_word = params.fetch("user_word").downcase
 
     # ================================================================================
     # Your code goes below.
@@ -9,17 +9,13 @@ class WordCountController < ApplicationController
     # The special word the user input is in the string @special_word.
     # ================================================================================
 
-    @word_count = "Replace this string with your answer"
+    @word_count = @text.chomp.split(" ").length
 
-    @character_count_with_spaces = "Replace this string with your answer"
+    @character_count_with_spaces = @text.chomp.length
 
-    @character_count_without_spaces = "Replace this string with your answer"
+    @character_count_without_spaces = @text.chomp.gsub(" ", "").length
 
-    @occurrences = "Replace this string with your answer"
-
-    # ================================================================================
-    # Your code goes above.
-    # ================================================================================
+    @occurrences = @text.chomp.gsub(/[^a-z0-9\s]/i, '').split(" ").select{|n| n == @special_word}.length
 
     render("word_count_templates/word_count.html.erb")
   end
